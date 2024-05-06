@@ -25,7 +25,9 @@ const LoginForm = () => {
           dispatch({
             type: 'SET_LOGGEDIN'
           });
+          localStorage.setItem("logged", "true"); 
           navigate("/");
+
 
           
         }
