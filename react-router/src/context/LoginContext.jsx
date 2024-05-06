@@ -6,21 +6,22 @@ const useLoginContext = () => {
   return useContext(LoginContext);
 };
 
-const initialState = {
-  logged: localStorage.getItem("logged") === "true" ? true : false 
-};
+
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_LOGGEDIN": {
-      localStorage.setItem("logged", "true"); 
+      
+
       return {
         ...state,
         logged: true
       };
+
     }
     case "SET_LOGGEDOUT": {
-      localStorage.setItem("logged", "false");
+      localStorage.removeItem('logged');
+
       return {
         ...state,
         logged: false
@@ -32,11 +33,13 @@ const reducer = (state, action) => {
 };
 
 const LoginProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {logged: localStorage.getItem("logged") === "true" });
 
   useEffect(() => {
-    
+   if(state.logged) {
     localStorage.setItem("logged", state.logged);
+   }
+    
   }, [state.logged]);
 
   return (
